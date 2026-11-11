@@ -1,5 +1,5 @@
 // App-scoped immutable shell. A new worker waits for an explicit user update.
-const VERSION='pmp-lab-2026-11-11-v3';
+const VERSION='pmp-lab-2026-11-11-v4';
 const CACHE=`${VERSION}:${self.registration.scope}`;
 const ASSETS=['./','./index.html','./styles.css','./app.js','./content.js','./engine.js','./manifest.webmanifest','./assets/icon.svg','./assets/icon-180.png','./assets/icon-192.png','./assets/icon-512.png','./docs/MASTER_ARCHITECTURE.md','./docs/SOURCES.md'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{const cache=await caches.open(CACHE);await cache.addAll(ASSETS.map(path=>new Request(new URL(path,self.registration.scope),{cache:'reload'})));})()));
