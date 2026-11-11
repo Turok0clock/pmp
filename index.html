@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4f2495">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PMP Learning Lab">
+  <meta name="description" content="A visual, offline project management learning companion. Learn, retrieve, connect and apply.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon-180.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>PMP Learning Lab</title>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to learning</a>
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brandmark" aria-hidden="true">p<span>m</span></span><span>PMP <b>Learning Lab</b><small>UNDERSTAND. CONNECT. APPLY.</small></span></a>
+    <div class="top-tools"><span id="offline-status" class="status" role="status">Preparing offline library…</span><a href="#settings" class="icon-link" aria-label="Settings and backups">Settings ↗</a></div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar"><div class="nav-label">YOUR WORKSPACE</div><nav aria-label="Main navigation">
+      <a href="#home" data-nav="home"><span aria-hidden="true">◫</span> Study board</a>
+      <a href="#map" data-nav="map"><span aria-hidden="true">◈</span> Course map</a>
+      <a href="#review" data-nav="review"><span aria-hidden="true">↻</span> Retrieval studio <b id="due-count">0</b></a>
+      <a href="#glossary" data-nav="glossary"><span aria-hidden="true">Aa</span> Term library</a>
+      <a href="#journal" data-nav="journal"><span aria-hidden="true">▤</span> Learning journal</a>
+    </nav><div class="sidebar-note"><span class="eyebrow">THE LEARNING LOOP</span><p>Try. Learn. Recall.<br>Connect. Apply. Revisit.</p><small>Make the ideas useful.<br>The score is a signal.</small></div><a class="source-link" href="#sources">Sources &amp; 2026 framing ↗</a><small class="independent">Independent learning companion.<br>Not affiliated with PMI or Udemy.</small></aside>
+    <main id="main" tabindex="-1"></main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
