@@ -1,6 +1,25 @@
 // Original teaching examples; course titles are navigation references, not transcripts.
 export const COURSE_URL = 'https://www.udemy.com/course/pmp_cram_course/';
-export const CONTENT_VERSION = '2026.11.11.1';
+export const CONTENT_VERSION = '2026.11.11.2';
+export const COURSE = {title:'PMP Exam Cram Course - 35-Hour Course Condensed - 12 PDUs Up',instructor:'Andrew Ramdayal / TIA Training',sectionNumber:2,sectionTitle:'Project Management Terms'};
+// Positions are within the Terms section, not global Udemy lecture numbers.
+// Titles and durations verified against the public course outline, 11 November 2026.
+export const TERM_VIDEOS = [
+ ['Project Operations and Project Management','5:41'],
+ ['Programs and Portfolio','2:50'],
+ ['Value and Changes','2:24'],
+ ['Phase and Deliverables','3:43'],
+ ['Project Lifecycle','2:00'],
+ ['Stakeholders','3:36'],
+ ['Organizational Structures','4:19'],
+ ['PMO','2:03'],
+ ['Constraints','2:01'],
+ ['Project Management Approaches','4:18'],
+ ['Risk vs Issues','2:00'],
+ ['Leadership vs Management','3:23'],
+ ['Emotional Intelligence','1:52'],
+ ['AI Terms','5:25']
+].map(([title,duration],i)=>({title,duration,position:i+1}));
 export const SOURCES = [
  {id:'pmi8',kind:'Official PMI',title:'PMBOK Guide — Eighth Edition',url:'https://www.pmi.org/standards/pmbok',note:'Six principles, seven performance domains, value delivery and adaptable process guidance.'},
  {id:'toc8',kind:'Official PMI',title:'PMBOK 8 public table of contents',url:'https://www.pmi.org/-/media/pmi/documents/public/pdf/publications/pmbok-guide-eighth-edition_table-of-contents.pdf',note:'Topic and section mapping only. This companion does not reproduce the paid standard.'},
