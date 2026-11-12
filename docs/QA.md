@@ -37,3 +37,12 @@ npm start
 ```
 
 With a Chromium executable installed, run the browser script in a second terminal using the preview URL printed by `npm start`. Its default test URL uses port 4174; set `TEST_URL` if the server uses 4173. The runtime app has no third-party JavaScript or CSS dependencies.
+# Focus practice verification · 11 November 2026
+
+- A real two-version service-worker browser check verified that an already-waiting update becomes available after opening/reloading Settings, activates successfully, removes its old scoped cache and preserves notes.
+
+- 15 unit tests passed: all 81 answer keys, numeric signs/commas/invalid inputs, original lesson behavior, spacing, source mapping and old-backup migration.
+- Existing browser suite passed: complete lesson, mixed assessment, saved notes, backup/restore, offline navigation/grading, responsive layouts and corrupted-data preservation.
+- `tests/focus-browser.mjs` passed: all three guided sessions, deep-link/Continue gating, mistake classification, numerical input, decisive-cue feedback, no unintended lesson progress, older saved notes, 15 new review schedules, backup round trip, offline visual interaction and mixed retrieval.
+- Viewed screenshots of the tool-selection and earned-value primers at 820px; automated overflow checks passed at 820px, 1180px and 390px. Browser checks ran in Chromium on Windows, not on a physical iPad.
+- Physical iPad speech playback and offline voice availability still require device testing. New narration uses the same device speech engine and visible text transcript as the existing lessons.

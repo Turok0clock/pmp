@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import {readFile,access} from 'node:fs/promises';
 import {LESSONS,QUESTIONS,QUESTION_MAP} from '../content.js';
 import {freshState,grade,answered,recordAttempt,scheduleReview,enrollLesson,dueQuestions,interleave,trackStats,validateState,DAY} from '../engine.js';
-test('all lesson content has unique stable IDs, provenance and all seven interaction forms',()=>{
- assert.equal(LESSONS.length,11);assert.equal(QUESTIONS.length,66);assert.equal(new Set(QUESTIONS.map(q=>q.id)).size,66);
- assert.deepEqual([...new Set(QUESTIONS.map(q=>q.type))].sort(),['category','match','mcq','multi','order','term']);
+test('lesson and focus content have unique stable IDs, provenance and all interaction forms',()=>{
+ assert.equal(LESSONS.length,11);assert.equal(QUESTIONS.filter(q=>!q.sessionId).length,66);assert.equal(QUESTIONS.filter(q=>q.sessionId).length,15);assert.equal(new Set(QUESTIONS.map(q=>q.id)).size,QUESTIONS.length);
+ assert.deepEqual([...new Set(QUESTIONS.map(q=>q.type))].sort(),['category','match','mcq','multi','number','order','term']);
  assert(LESSONS.every(l=>l.decision.track==='Judgment'&&l.visual.nodes.length>=2&&l.rubric.length===3&&l.sources.length));
  for(const q of QUESTIONS){assert(q.why.length>30);assert(q.sourceIds.length);assert(q.provenance);assert(LESSONS.some(l=>l.id===q.lessonId));}
 });
-test('all authored answer keys score correctly',()=>{for(const q of QUESTIONS){const answer=q.type==='term'?q.answer[0]:q.answer;assert(grade(q,answer).correct,q.id);assert(answered(q,answer),q.id);}});
+test('all authored answer keys score correctly',()=>{for(const q of QUESTIONS){const answer=q.type==='term'?q.answer[0]:q.type==='number'?String(q.answer):q.answer;assert(grade(q,answer).correct,q.id);assert(answered(q,answer),q.id);}});
 test('MCQ does not coerce empty or string answers to correct choices',()=>{const q=QUESTION_MAP['c-pre'];assert(!grade(q,null).correct);assert(!grade(q,'0').correct);assert(!answered(q,null));});
 test('multi-select is set-based and rejects a selected distractor',()=>{const q=QUESTION_MAP['v-e1'];assert(grade(q,[3,1,0]).correct);assert(!grade(q,[0,1,2,3]).correct);assert(!grade(q,[0]).correct);});
 test('matching, categories and order require the full mapping',()=>{for(const type of ['match','category','order']){const q=QUESTIONS.find(q=>q.type===type);assert(!grade(q,[...q.answer].reverse()).correct);assert(!grade(q,q.answer.slice(1)).correct);assert(!answered(q,q.answer.map(()=>null)));}});

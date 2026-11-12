@@ -87,3 +87,18 @@ Backups are JSON with a schema version. Validate before replacement, export the 
 ## Release gate
 
 Check content keys and all grading types, completion gates, progress reload, draft recovery, mixed reviews, due/early scheduling, backup validation and corrupt-data recovery. Verify the `/pmp/` subpath, offline navigation to previously unopened lessons, cache readiness, update activation, keyboard/touch controls and layouts at iPad portrait/landscape and phone width. Test speech and actual installation on a physical iPad before promising device-specific audio behavior.
+# Focus practice extension · 11 November 2026
+
+The 11 Terms lessons remain the main eight-stage path. Three optional bridge sessions add depth without representing new course chapters or replacing the assigned Udemy videos. Each names prerequisite/related Terms lessons, then presents a visual primer followed by five sequential scored prompts and a retrieval plan. Incorrect responses require mistake classification before advancing. The final prompt draws on a different Terms concept.
+
+- Decision states: distinguish proposed changes, approved work, immediate hazards and authorized closure. A pair changes the approval state while keeping the project context stable.
+- Tool purpose: switch a ranked chart between incident count and downtime; contrast prioritization with cause investigation; distinguish bottom-up, parametric and analogous estimating.
+- Earned value: manipulate planned doors, completed doors and actual spending. Calendar, completed-door and receipt icons anchor PV, EV and AC. Enter numeric CV and reconstructed EV before interpreting a new scenario.
+
+Keep the Knowledge, Systems and Judgment labels. Store focus drafts separately from lesson state; reuse the shared attempt and review model. Attempted focus questions enter the existing review schedule immediately. Core mini-exams exclude unseen focus prompts. Older version-1 backups migrate with an empty focus-draft section and retain lesson progress.
+
+Mindset guidance is a conditional reference, not another official PMI principle list. Compare available answers using the facts, authority, urgency and objective; label instructor heuristics, framework rules and original applications separately. The 2026 ECO continues to define exam coverage. Never infer a PMP pass prediction from supplemental CAPM results.
+
+## Follow-on content priorities
+
+When the relevant course chapters are implemented, add: Scrum roles and Definition of Done; velocity and explicit lead/cycle-time boundaries; stakeholder and BA role distinctions; requirements traceability; risk responses and reserves; dependencies and estimating uncertainty. Preserve small lessons and worked visual examples rather than expanding the Terms module into a full-course overview.

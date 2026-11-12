@@ -3,10 +3,16 @@ export const STORAGE_KEY='pmp-learning-lab-v1';
 export const DAY=86400000;
 export const INTERVALS=[1,3,7,14,30];
 export const normalize=s=>String(s??'').normalize('NFKC').toLowerCase().trim().replace(/[.,!?;:]/g,'').replace(/\s+/g,' ');
-export const freshState=()=>({version:STATE_VERSION,lessons:{},attempts:[],reviews:{},settings:{rate:1,voice:''},updatedAt:Date.now()});
+export const freshState=()=>({version:STATE_VERSION,lessons:{},focus:{drafts:{}},attempts:[],reviews:{},settings:{rate:1,voice:''},updatedAt:Date.now()});
+export function responseNumber(value){
+ if(typeof value!=='string')return NaN;
+ const s=value.trim();
+ return /^[+-]?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(s)?Number(s.replace(/,/g,'')):NaN;
+}
 export function grade(q,value){
  let correct=false,detail=[];
- if(q.type==='term')correct=q.answer.some(a=>normalize(a)===normalize(value));
+ if(q.type==='number')correct=Number.isFinite(responseNumber(value))&&Math.abs(responseNumber(value)-q.answer)<=(q.tolerance||0);
+ else if(q.type==='term')correct=q.answer.some(a=>normalize(a)===normalize(value));
  else if(q.type==='mcq')correct=Number.isInteger(value)&&value===q.answer;
  else if(q.type==='multi'){
   const selected=Array.isArray(value)?[...new Set(value)]:[];
@@ -19,6 +25,7 @@ export function grade(q,value){
  return {correct,fraction:detail.length?detail.filter(Boolean).length/detail.length:Number(correct),detail};
 }
 export function answered(q,value){
+ if(q.type==='number')return Number.isFinite(responseNumber(value));
  if(q.type==='term')return typeof value==='string'&&!!value.trim();
  if(q.type==='mcq')return Number.isInteger(value)&&value>=0&&value<q.choices.length;
  if(q.type==='multi')return Array.isArray(value)&&value.length>0;
@@ -41,7 +48,7 @@ export function scheduleReview(previous,correct,confidence,now=Date.now()){
  return {due:now+delay,streak,lastReviewed:now,lastPracticed:now,lapses:(previous?.lapses||0)+Number(!correct)};
 }
 export function enrollLesson(state,lesson,questions,now=Date.now()){
- for(const q of questions.filter(q=>q.lessonId===lesson.id&&q.id!==lesson.pre.id)){
+ for(const q of questions.filter(q=>q.lessonId===lesson.id&&!q.sessionId&&q.id!==lesson.pre.id)){
   if(state.reviews[q.id])continue;
   const a=state.attempts.filter(a=>a.questionId===q.id&&a.phase!=='pre').at(-1);
   if(a)state.reviews[q.id]=scheduleReview(null,a.correct,a.confidence,now);
@@ -69,6 +76,15 @@ export function validateState(data,questions,lessonIds){
  const obj=x=>x&&typeof x==='object'&&!Array.isArray(x)&&Object.getPrototypeOf(x)===Object.prototype;
  if(!obj(data.lessons)||!obj(data.reviews)||!obj(data.settings))throw Error('The backup is missing valid progress sections.');
  const clean=freshState();
+ // Older version-1 backups have no focus section; keep their lesson progress intact.
+ if(data.focus!==undefined){
+  if(!obj(data.focus)||!obj(data.focus.drafts))throw Error('Invalid focus practice data.');
+  for(const [id,d] of Object.entries(data.focus.drafts)){
+   const q=qmap.get(id);
+   if(!q?.sessionId||!obj(d)||!validValue(q,d.value)||!['','guess','unsure','sure'].includes(d.confidence))throw Error('Invalid focus practice response.');
+   clean.focus.drafts[id]={value:structuredClone(d.value),confidence:d.confidence};
+  }
+ }
  for(const [id,l] of Object.entries(data.lessons)){
   if(!lessonIds.includes(id))throw Error('The backup contains an unknown lesson.');
   if(!obj(l)||!obj(l.done||{})||!obj(l.drafts||{}))throw Error('A lesson record is invalid.');
@@ -91,7 +107,7 @@ export function validateState(data,questions,lessonIds){
  }
  for(const a of data.attempts){
   const q=qmap.get(a.questionId);
-  if(!q||a.lessonId!==q.lessonId||typeof a.id!=='string'||!['pre','recall','lab','decision','exam','review','practice'].includes(a.phase)||!['guess','unsure','sure'].includes(a.confidence)||!Number.isFinite(a.at)||typeof a.mistake!=='string'||a.mistake.length>200||!validValue(q,a.value))throw Error('The backup contains an invalid attempt.');
+  if(!q||a.lessonId!==q.lessonId||typeof a.id!=='string'||!['pre','recall','lab','decision','exam','review','practice','focus'].includes(a.phase)||!['guess','unsure','sure'].includes(a.confidence)||!Number.isFinite(a.at)||typeof a.mistake!=='string'||a.mistake.length>200||!validValue(q,a.value))throw Error('The backup contains an invalid attempt.');
   clean.attempts.push({...a,...grade(q,a.value)});
  }
  for(const [id,r] of Object.entries(data.reviews)){
@@ -102,7 +118,7 @@ export function validateState(data,questions,lessonIds){
  clean.updatedAt=Number.isFinite(data.updatedAt)?data.updatedAt:Date.now();return clean;
 }
 function validValue(q,v){
- if(q.type==='term')return typeof v==='string'&&v.length<=2000;
+ if(q.type==='term'||q.type==='number')return typeof v==='string'&&v.length<=(q.type==='number'?80:2000);
  if(q.type==='mcq')return v===null||Number.isInteger(v)&&v>=0&&v<q.choices.length;
  if(!Array.isArray(v)||v.length>100)return false;
  const max=q.type==='order'?q.items.length:q.choices.length;

@@ -1,6 +1,6 @@
 # PMP Learning Lab
 
-A light, colorful, iPad-friendly learning companion for project management. The first module implements **11 micro-lessons covering the 14 Project Management Terms lectures**, with **66 original scored prompts**. Later course sections are clearly marked as planned.
+A light, colorful, iPad-friendly learning companion for project management. The first module implements **11 micro-lessons covering the 14 Project Management Terms lectures**, with **66 original scored prompts**. Three optional visual focus sessions add **15 original prompts**, numeric recall and a conditional mindset guide. Later course sections are clearly marked as planned.
 
 The public [Udemy course outline](https://www.udemy.com/course/pmp_cram_course/) supplies the instructional spine. The [2026 PMI exam framing](https://www.pmi.org/certifications/project-management-pmp/new-exam) and [PMBOK Guide Eighth Edition](https://www.pmi.org/standards/pmbok) supply separate reference structures. Course mapping was checked on 11 November 2026. Local teaching, examples, diagrams and questions are original and are not official PMI exam items.
 
@@ -28,6 +28,12 @@ Preview → optional pre-test → visual reading / course viewing → terminolog
 - Mixed reviews alternate lessons where possible. Mini-exams add a prompt from a previously completed lesson.
 - Free-text explanations use an explicit self-review rubric, **not** automated semantic grading.
 
+## Optional focus path
+
+The sidebar’s **Focus practice** page explains when to use the three bridges: decision state and authority, tool purpose and estimating, and earned-value meaning and calculations. Related Terms lessons link to them. Each session has a visual primer, five sequential responses (including a mixed-topic final question), feedback, mistake classification and a retrieval plan. It does not require an additional Udemy video or count as completing a Terms lesson.
+
+Mindset cards distinguish conditional instructor/community advice from primary PMI and framework guidance. Supplied CAPM exam material and instructor transcripts informed topic selection; the private material and personal results are not included in this repository. Andrew Ramdayal’s PMP course remains the spine.
+
 ## Host on GitHub Pages
 
 This is a buildless static app, suitable for `https://<owner>.github.io/pmp/` or a custom domain. All runtime assets use relative URLs.
@@ -54,6 +60,7 @@ Browser acceptance checks use Playwright and a locally available Edge or Chromiu
 
 - `content.js`: lesson data, question bank, glossary, roadmap and source register.
 - `engine.js`: pure grading, scheduling, interleaving, first/latest scoring and backup validation.
+- `focus.js`, `focus-ui.js`, `focus.css`: original guided bridge practice, interactive visuals and conditional mindset cards.
 - `app.js`: navigation, local persistence, accessible exercise renderers and narration.
 - `styles.css`: light purple, coral and teal palette inspired by PMI; no copied PMI logo or claim of affiliation.
 - `sw.js`: atomic app-shell precache, scoped cleanup, cache verification and explicit update activation.
